@@ -52,7 +52,6 @@ run_analysis <- function () {
     # merge training and test data to create one data set
 
     df <- rbind(read.data('train'), read.data('test'))
-    #df <- read.data('test')
 
     # 2
     # extract only values of *-mean and *-std variables

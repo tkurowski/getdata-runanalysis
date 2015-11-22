@@ -174,7 +174,6 @@ aggregate(df[,3:ncol(df)], by=df[,1:2], mean)
 # with dplyr:
 # summarize_each(group_by(df, subject, activity), funs(mean))
 ```
-_More details about how the code works on the data can be found in the [CodeBook](CodeBook.md)_
 
 ### Running the code
 
@@ -199,6 +198,6 @@ To clean the data call the `run_analysis` function
 ```R
 tidy.data <- run_analysis()
 
-# We can save tidy data to file
+# We can save the tidy data to a file
 write.table(tidy.data, "tidy.txt", row.names = FALSE)
 ```
