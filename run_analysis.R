@@ -35,7 +35,7 @@ prettify <- function (s) {
     s <- sub('(.*)-std\\(\\)-?(.*)','\\1\\2_std', s, perl=TRUE)
     # clarify some abbreviations
     s <- sub('^t', 'time', s)
-    s <- sub('^f', 'fft', s)
+    s <- sub('^f', 'freq', s)
     s <- sub('\\.acc', '.acceleration', s)
     s <- sub('\\.mag', '.magnitude', s)
     # body.body -> body

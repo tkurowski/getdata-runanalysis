@@ -49,7 +49,7 @@ The original feature names were changed to be more readable and more 'R-like'. I
 
 - CamelCase was changed to dot.separated.lowercase
 - `-mean()` and `-std()` substrings were extracted from the middle and put at the end without parentheses (`abc-mean()-xyz` changes to `abc.xyz_mean`)
-- some abbreviations were expanded (`acc` to `acceleration`, `t` to `time`, `f` to `fft` for Fast Fourier Transform domain)
+- some abbreviations were expanded (`acc` to `acceleration`, `t` to `time`, `f` to `freq` for frequency domain)
 
 ```R
 # in run_analysis.R lookup a prettify function to see how the original feature names are transformed
@@ -62,7 +62,7 @@ The variables in the tidy data have labels of the following form:
 
 Where:
 
-- domain - `time` for time domain or `fft` for values obtained by applying Fast Fourier Transform
+- domain - `time` for time domain or `freq` for values obtained by applying Fast Fourier Transform
 - signal-group - `body` or `gravity`
 - physical-quantity/sensor - `acceleration` (`accelerometer`) or `gyroscope` 
 - aspect - `magnitue` or `jerk`
@@ -74,8 +74,9 @@ Where:
 Please refer to the raw data documentation files `README.txt` and `features_info.txt` to find detailed
 information about measurements.
 
-As the tidy data takes averages of the measurments the units stay the same: in particular `gyro`
-values are in `radians/sec`, acceleration values are in standard gravity units `g`.
+As the tidy data takes averages of the measurments the units stay the same:
+in particular `gyro` values (angular velocity) are in `radians/sec`,
+acceleration values are in standard gravity units `g`.
 
 
 ### Cleaning of the data
