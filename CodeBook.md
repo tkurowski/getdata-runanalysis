@@ -39,7 +39,7 @@ And more precisely: in their averages.
 _In the tidy dataset **each row concerns one unique (person, activity) pair**. For each such pair the
 **average value of the features** across all 'raw' records for this (person, activity) pair is provided_.
 
-The raw data dictionary (see "The instructions list" for how to obtain it) contains detailed info
+The raw data directory (see "The instructions list" for how to obtain it) contains detailed info
 about the variables, how they were obtained, and their units. 
 
 
@@ -47,7 +47,7 @@ about the variables, how they were obtained, and their units.
 
 The original feature names were changed to be more readable and more 'R-like'. In particular:
 
-- CamelCase was changed to dot.separated.lowercase
+- `CamelCase` was changed to `dot.separated.lowercase`
 - `-mean()` and `-std()` substrings were extracted from the middle and put at the end without parentheses (`abc-mean()-xyz` changes to `abc.xyz_mean`)
 - some abbreviations were expanded (`acc` to `acceleration`, `t` to `time`, `f` to `freq` for frequency domain)
 
@@ -74,9 +74,13 @@ Where:
 Please refer to the raw data documentation files `README.txt` and `features_info.txt` to find detailed
 information about measurements.
 
-As the tidy data takes averages of the measurments the units stay the same:
-in particular `gyro` values (angular velocity) are in `radians/sec`,
-acceleration values are in standard gravity units `g`.
+In particular `gyro` values (angular velocity) were measured in `radians/sec`,
+and acceleration values in standard gravity units `g`.
+
+**PLEASE NOTE, that the data has been normalized (and bounded within [-1, 1])
+which means that all the values (in the raw data) are in fact dimensionless.**
+
+Anyway, as the tidy data takes averages of the measurments the units stay the same.
 
 
 ### Cleaning of the data
