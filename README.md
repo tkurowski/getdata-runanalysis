@@ -21,7 +21,7 @@ Each _record_ concerns a given person performing a given activity and
 it contains 561 measurements of certain _variables_ (_features_), e.g.
 body linear acceleration, angular velocity etc.
 
-### How is the raw data organized?
+### How the raw data is organized
 
 The data is organized in files that fall into 2 groups:
 
@@ -62,7 +62,7 @@ measured?
 We see the first three measurements are the mean values of body acceleration along
 X, Y and Z axis respectively.
 
-## What is the clean data we want?
+### What is the tidy data we want?
 
 What we need is a:
 <quote>
@@ -72,18 +72,111 @@ What we need is a:
 So, for each person and each activity they performed we must find the average
 of `-mean()` and `-std()` variables.
 
-#### Example
+#### Example - variables we're interested in
+
+    # mean value of acceleration of the body in time domain along x axis
+    tBodyAcc-mean()-X
+    
+    # standard deviation of gravity acceleration along z axis
+    tGravityAcc-std()-Z
+
+
+#### Example - variables we discard
+
+    # maximum value of acceleration of the body in time domain along x axis
+    tBodyAcc-max()-X
+    
+    # minimum value of gravity acceleration along z axis
+    tGravityAcc-min()-Z
+
+#### Tidy data columns
+
+1. subject_id - as integer (e.g 3)
+2. activity - as character (e.g. "WALKING")
+3. _feature_* - as numeric (e.g -0.3816)
+
+#### variables/features
+
+The raw data provides many metrics for different features (mean, std, max, min, ...).
+We're only interested in the _mean_ and _standard deviation (std)_ values.
+And more precisely: in their averages.
+
+##### names
+
+The variables in the tidy data have labels of the following form:
+
+    <domain>.<signal-group>.<physical-quantity>[.<aspect>][.<axis>]_<metric>
+
+Where:
+
+- domain - `time` for time domain or `fft` for values obtained by applying Fast Fourier Transform
+- signal-group - `body` or `gravity`
+- physical-quantity/sensor - `acceleration` (`accelerometer`) or `gyroscope` 
+- aspect - `magnitue` or `jerk`
+- axis - `x`, `y` or `z`
+- metric - `mean` or `std`
+
+##### units
+
+`gyro` values are in `radians/sec`. Acceleration values are in standard gravity units `g`.
+
+**Detailed information about the data is distributed with the raw data itself**
+
+
+#### Example - tidy data
 Let's suppose the person #5 did only three experiments (2 when SITTING
-and 1 when LAYING) and that we're only interested in tBodyAcc-mean()-Y variable.
-If the measurements for the variable were
+and 1 when LAYING) and that we're only interested in `tBodyAcc-mean()-Y` variable.
+If the measurements for this variable were:
 
     1 # for the first sitting experiment,
     3 # for the second sitting experiment and...
     2 # for the first and only laying experiment
 
-then in our tidy data we expect to have
+then in our tidy data we expect to have:
 
-    # person_id, activity, time.body.acceleration.y_mean
+    # subject_id, activity, time.body.acceleration.y_mean
     5, SITTING, 2
     5, LAYING, 2
 
+
+
+The code
+--------
+
+The code does what follows:
+
+- reads the data and metadata files
+- combines the data into one data.frame
+- selects only the interesing (`mean` and `std`) columns
+- "prettifies" column labels, puts explicit action labels (e.g. "STANDING" instead of 5)
+- groups the data by (subject, activity) and for each such group computes the average (mean)
+  of the chosen features.
+
+_More details about how the code works on the data can be found in the [CodeBook](CodeBook.md)_
+
+### Running the code
+
+All the R code that transforms the raw data (files) into the tidy data (R frame)
+lives in `run_analysis.R`.
+
+```R
+source('run_analysis.R')
+```
+
+The actual work is done within `run_analysis` function.
+This function (and some other helper functions) use `DATA.DIR` variable
+to find data files.
+By default it points to `"UCI HAR Dataset"` folder in current directory:
+
+```R
+# DATA.DIR = 'UCI HAR Dataset' # the directory with the Samsung data
+```
+
+To clean the data call the `run_analysis` function
+
+```R
+tidy.data <- run_analysis()
+
+# We can save tidy data to file
+write.table(tidy.data, "tidy.txt", row.names = FALSE)
+```
