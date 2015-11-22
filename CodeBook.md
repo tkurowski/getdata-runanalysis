@@ -1,6 +1,21 @@
-Study design
-------------
+Study design and data processing
+--------------------------------
 
+### Collection of the raw data
+
+The data has been collected in the following experiment: [Human Activity Recognition Using Smartphones](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
+
+It contains 561 measurments from gyroscopes and accelerometers (in both time and frequency domains) embeded
+in smartphones that 30 people wore when performing different activities.
+
+### Project goal
+
+The goal of this project is twofold:
+
+1. combine the data scattered in different files into one, tidy, readable data frame
+2. select chosen measurements and aggregate them (average) for each person and each activity
+
+The result of the processing is what we from now on call the 'tidy data'.
 
 Code book
 ---------
@@ -13,7 +28,7 @@ There are 66 columns in the tidy data:
 
 1. subject_id - (ordinal) integer (1 - 30)
 2. activity - (categorical) character (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING)
-3. to 66. _feature_* - (continuous) numeric
+3. to 66. _feature_* - (continuous) numeric, average values of chosen features (see below)
 
 #### variables/features
 
