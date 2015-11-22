@@ -146,12 +146,34 @@ The code
 The code does what follows:
 
 - reads the data and metadata files
+```R
+# Read a complete data frame for given group ('test', 'train')
+read.data <- function (group)
+    cbind(read.table(path('subject_%s.txt', group)),
+          read.table(path('y_%s.txt', group)),
+          read.table(path('X_%s.txt', group)))
+```
 - combines the data into one data.frame
+```R
+df <- rbind(read.data('train'), read.data('test'))
+```
 - selects only the interesing (`mean` and `std`) columns
+```R
+wanted.features <- grep('std\\(\\)|mean\\(\\)', features)
+df <- df[, c(1, 2, wanted.features + 2)] # 2 for 'subject' and 'activity'
+```
 - "prettifies" column labels, puts explicit action labels (e.g. "STANDING" instead of 5)
+```R
+names(df) <- c("subject", "activity", prettify(features))
+```
 - groups the data by (subject, activity) and for each such group computes the average (mean)
   of the chosen features.
-
+```R
+aggregate(df[,3:ncol(df)], by=df[,1:2], mean)
+    
+# with dplyr:
+# summarize_each(group_by(df, subject, activity), funs(mean))
+```
 _More details about how the code works on the data can be found in the [CodeBook](CodeBook.md)_
 
 ### Running the code
