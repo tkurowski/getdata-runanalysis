@@ -72,7 +72,7 @@ What we need is a:
 So, for each person and each activity they performed we must find the average
 of `-mean()` and `-std()` variables.
 
-#### Example - variables we're interested in
+#### Example - some variables we're interested in
 
     # mean value of acceleration of the body in time domain along x axis
     tBodyAcc-mean()-X
@@ -81,46 +81,13 @@ of `-mean()` and `-std()` variables.
     tGravityAcc-std()-Z
 
 
-#### Example - variables we discard
+#### Example - some variables we discard
 
     # maximum value of acceleration of the body in time domain along x axis
     tBodyAcc-max()-X
     
     # minimum value of gravity acceleration along z axis
     tGravityAcc-min()-Z
-
-#### Tidy data columns
-
-1. subject_id - as integer (e.g 3)
-2. activity - as character (e.g. "WALKING")
-3. _feature_* - as numeric (e.g -0.3816)
-
-#### variables/features
-
-The raw data provides many metrics for different features (mean, std, max, min, ...).
-We're only interested in the _mean_ and _standard deviation (std)_ values.
-And more precisely: in their averages.
-
-##### names
-
-The variables in the tidy data have labels of the following form:
-
-    <domain>.<signal-group>.<physical-quantity>[.<aspect>][.<axis>]_<metric>
-
-Where:
-
-- domain - `time` for time domain or `fft` for values obtained by applying Fast Fourier Transform
-- signal-group - `body` or `gravity`
-- physical-quantity/sensor - `acceleration` (`accelerometer`) or `gyroscope` 
-- aspect - `magnitue` or `jerk`
-- axis - `x`, `y` or `z`
-- metric - `mean` or `std`
-
-##### units
-
-`gyro` values are in `radians/sec`. Acceleration values are in standard gravity units `g`.
-
-**Detailed information about the data is distributed with the raw data itself**
 
 
 #### Example - tidy data
@@ -138,6 +105,7 @@ then in our tidy data we expect to have:
     5, SITTING, 2
     5, LAYING, 2
 
+**Please, refer to the [code book](CodeBook.md) for more information about the data**
 
 
 The code
@@ -164,7 +132,13 @@ df <- df[, c(1, 2, wanted.features + 2)] # 2 for 'subject' and 'activity'
 ```
 - "prettifies" column labels, puts explicit action labels (e.g. "STANDING" instead of 5)
 ```R
+# see the CodeBook.md for more info on what prettify does
 names(df) <- c("subject", "activity", prettify(features))
+
+# change df$activities to factor with activity.labels as levels:
+activity <- factor(df$activity)
+attr(activity, 'levels') <- activity.labels
+df$activity <- activity 
 ```
 - groups the data by (subject, activity) and for each such group computes the average (mean)
   of the chosen features.
